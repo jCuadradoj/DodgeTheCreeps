@@ -9,13 +9,13 @@ func _ready():
 	
 func _process(delta): 
 	var velocity = Vector2.ZERO # Vector de moviment del jugador. 
-	if Input.is_action_pressed("move_right"):
+	if Input.is_action_pressed("move_right2"):
 		velocity.x += 1 
-	if Input.is_action_pressed("move_left"):
+	if Input.is_action_pressed("move_left2"):
 		velocity.x -= 1 
-	if Input.is_action_pressed("move_down"):
+	if Input.is_action_pressed("move_down2"):
 		velocity.y += 1 
-	if Input.is_action_pressed("move_up"):
+	if Input.is_action_pressed("move_up2"):
 		velocity.y -= 1 
 	if velocity.length() > 0: 
 		velocity = velocity.normalized() * speed 
@@ -35,13 +35,14 @@ func _process(delta):
 		$AnimatedSprite.animation = "up" 
 		$AnimatedSprite.flip_v = velocity.y > 0 
 
-func _on_Player_body_entered(body):
-	var settings = get_node("/root/SettingsManager")  
-	if settings and settings.modeZen:  
+func _on_Player2_body_entered(body):
+	var settings = get_node("/root/SettingsManager")
+	if settings and settings.modeZen:
 		return 
 	
 	hide() 
-	emit_signal("hit", "player1")  
+	emit_signal("hit", "player2") 
+	# S'ha d'ajornar, ja que no podem canviar les propietats físiques en una crida de retorn de física. 
 	$CollisionShape2D.set_deferred("disabled", true) 
 
 func start(pos): 
